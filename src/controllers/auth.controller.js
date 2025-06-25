@@ -69,16 +69,18 @@ class AuthController {
     }
 
     async refreshAccessToken(req, res) {
-        const { refreshToken } = req.cookie;
+        if (!req.cookies?.refreshToken) return res.status(401).json({ error: 'Refresh token not present' })
+        const { refreshToken } = req.cookies;
         try {
             const { userId } = jwt.verify(refreshToken, refreshSecret);
             const user = await User.findByPk(userId);
-            const { hash, ...saveUserData } = user.toJson();
+            const { hash, ...saveUserData } = user.toJSON();
             const accessToken = jwt.sign(saveUserData, accessSecret, { expiresIn: '15m' });
             res.status(200).json({
                 token: accessToken
             });
         } catch (error) {
+            console.error(error)
             res.clearCookie('refreshToken');
             res.status(401).json({
                 error: 'Invalid refresh token'
