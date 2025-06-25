@@ -1,7 +1,8 @@
 const { accessSecret } = require('../lib/config');
+const { User } = require('../models/index');
 const jwt = require('jsonwebtoken');
 
-const requireAuth = (req, res, next) => {
+const requireAuth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -13,7 +14,8 @@ const requireAuth = (req, res, next) => {
     try {
         const token = authHeader.split(' ')[1];
         const userData = jwt.verify(token, accessSecret);
-        req.user = userData;
+        const user = await User.findByPk(userData.userId);
+        req.user = user;
         next();
     } catch (error) {
         return res.status(401).json({
@@ -22,7 +24,7 @@ const requireAuth = (req, res, next) => {
     }
 };
 
-const optionalAuth = (req, res, next) => {
+const optionalAuth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -33,7 +35,8 @@ const optionalAuth = (req, res, next) => {
     try {
         const token = authHeader.split(' ')[1];
         const userData = jwt.verify(token, accessSecret);
-        req.user = userData;
+        const user = await User.findByPk(userData.userId);
+        req.user = user;
         return next();
     } catch (error) {
         req.user = null;
