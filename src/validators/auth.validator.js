@@ -23,7 +23,7 @@ const regsiterSchema = Joi.object({
 
 const validateRegister = async (req, res, next) => {
     try {
-        await regsiterSchema.validateAsync(req.body);
+        await regsiterSchema.validateAsync(req.body || {});
         next();
     } catch (error) {
         return res.status(400).json({
@@ -44,7 +44,7 @@ const loginSchema = Joi.object({
 
 const validateLogin = async (req, res, next) => {
     try {
-        await loginSchema.validateAsync(req.body);
+        await loginSchema.validateAsync(req.body || {});
         next();
     } catch (error) {
         return res.status(400).json({
