@@ -74,8 +74,7 @@ class AuthController {
         try {
             const { userId } = jwt.verify(refreshToken, refreshSecret);
             const user = await User.findByPk(userId);
-            const { hash, ...saveUserData } = user.toJSON();
-            const accessToken = jwt.sign(saveUserData, accessSecret, { expiresIn: '15m' });
+            const accessToken = jwt.sign({ userId: user.id }, accessSecret, { expiresIn: '15m' });
             res.status(200).json({
                 token: accessToken
             });
@@ -86,6 +85,13 @@ class AuthController {
                 error: 'Invalid refresh token'
             });
         }
+    }
+
+    async logout(req, res) {
+        res.clearCookie('refreshToken');
+        res.status(200).json({
+            message: 'Logged out successfully'
+        });
     }
 
 }
