@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const { createModuleLogger } = require('./logger');
+const logger = createModuleLogger('Sequelize');
 
 let sequelize;
 
@@ -10,11 +12,13 @@ if (process.env.USE_DB === 'postgres') {
         username: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
+        logging: (...msg) => logger.debug(msg.join('\n'))
     });
 } else {
     sequelize = new Sequelize({
         dialect: 'sqlite',
         storage: process.env.DB_STORAGE || './database.sqlite',
+        logging: (...msg) => logger.debug(msg.join('\n'))
     });
 }
 
