@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         },
         emailValidated: {
             type: DataTypes.BOOLEAN,
-            default: false
+            defaultValue: false
         },
         hash: {
             type: DataTypes.STRING,
@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
-            default: false
+            defaultValue: false
         },
         avatarUrl: {
             type: DataTypes.STRING,
