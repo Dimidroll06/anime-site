@@ -12,10 +12,12 @@ function App() {
       <Provider store={store}>
         <AuthProvider>
           <Header />
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="*" element={<h1>404</h1>} />
-          </Routes>
+          <div className="pt-13">
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="*" element={<h1>404</h1>} />
+            </Routes>
+          </div>
         </AuthProvider>
       </Provider>
     </BrowserRouter>
