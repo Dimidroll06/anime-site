@@ -1,25 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRefreshQuery } from '../features/auth/authService';
+import { useGetMeQuery } from '../features/auth/authService';
 import { setUser, setAuth, setLoading } from '../features/auth/authSlice';
-import { jwtDecode } from 'jwt-decode';
 
 const AuthProvider = ({ children }) => {
     const dispatch = useDispatch();
-    const { data, isLoading, error } = useRefreshQuery();
+    const { data, isLoading, error } = useGetMeQuery();
 
     useEffect(() => {
+        console.log(isLoading, data, error);
         if (!isLoading) {
-            if (data?.token) {
-                try {
-                    const user = jwtDecode(data.accessToken);
-                    dispatch(setUser(user));
-                    dispatch(setAuth(true));
-                } catch (e) {
-                    console.error('Ошибка парсинга токена', e);
-                    dispatch(setUser(null));
-                    dispatch(setAuth(false));
-                }
+            if (!error && data) {
+                const user = data;
+                dispatch(setUser(user));
+                dispatch(setAuth(true));
             } else {
                 dispatch(setUser(null));
                 dispatch(setAuth(false));

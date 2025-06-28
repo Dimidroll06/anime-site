@@ -1,8 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { getAuth, getLoading, getUser } from "../features/auth/authSlice";
 
 export default function ProfileMenu() {
   const [menuOpened, setMenuOpened] = useState(false);
   const menuRef = useRef(null);
+
+  const isLoading = useSelector(getLoading);
+  const isAuth = useSelector(getAuth);
+  const user = useSelector(getUser);
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -21,7 +27,9 @@ export default function ProfileMenu() {
     return () => console.log(item);
   };
 
-  return (
+  if (isLoading) return <>Загрузка</>;
+  if (user == null) return <button>Войти</button>
+  if (isAuth) return (
     <div
       className="relative group flex cursor-pointer"
       ref={menuRef}
@@ -35,13 +43,22 @@ export default function ProfileMenu() {
       />
       {menuOpened && (
         <div className="absolute w-60 pt-4 pb-4 bg-white/70 rounded-2xl right-0 top-13 cursor-auto overflow-hidden">
-          <button className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors" onClick={handleMenuClick("profile")}>
+          <button
+            className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors"
+            onClick={handleMenuClick("profile")}
+          >
             Мой профиль
           </button>
-          <button className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors" onClick={handleMenuClick("admin")}>
+          <button
+            className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors"
+            onClick={handleMenuClick("admin")}
+          >
             Панель администратора
           </button>
-          <button className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors" onClick={handleMenuClick("logout")}>
+          <button
+            className="w-60 cursor-pointer hover:text-blue-500 hover:bg-blue-100 transition-colors"
+            onClick={handleMenuClick("logout")}
+          >
             Выйти
           </button>
         </div>

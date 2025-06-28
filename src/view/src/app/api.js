@@ -1,44 +1,62 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-const baseQuery = fetchBaseQuery({
-    baseUrl: '/api',
-    credentials: 'include',
+const $api = axios.create({
+    baseURL: '/api',
+    withCredentials: true,
 });
 
-export const baseQueryWithToken = async (args, api, extraOptions) => {
-    const token = localStorage.getItem('token');
-    const requestArgs = {
-        ...args,
-        headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-        },
-    };
+export const baseQueryWithToken = async ({ url, method, data, params }) => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { authorization: `Bearer ${token}` } : {};
 
-    let result = await baseQuery(requestArgs, api, extraOptions);
+        const res = await $api({
+            url,
+            method,
+            data,
+            params,
+            headers
+        });
 
-    if (result.error?.status === 401) {
-        try {
-            const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
-            if (refreshResult.data) {
-                const { token } = refreshResult.data;
-                localStorage.setItem('token', token);
-                result = await baseQuery(
-                    {
-                        ...requestArgs,
+        return { data: res.data };
+        
+    } catch (error) {
+        if (error.response?.status === 401 && localStorage.getItem('token') != null) {
+            try {
+                const refreshRes = await $api.post('/auth/refresh', {
+                    withCredentials: true
+                });
+
+                if (refreshRes.data?.token) {
+                    const newToken = refreshRes.data.token;
+                    localStorage.setItem('token', newToken);
+
+                    const retryRes = await $api({
+                        url,
+                        method,
+                        data,
+                        params,
                         headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
-                    api,
-                    extraOptions
-                );
+                            authorization: `Bearer ${newToken}`
+                        }
+                    });
+
+                    return { data: retryRes.data };
+                }
+
+            } catch (error) {
+                console.error('Не авторизован', error);
             }
-        } catch (e) {
-            console.error('Не авторизован', e);
+        }
+
+        return {
+            error: {
+                status: error.response?.status,
+                data: error.resonse?.data || error.message
+            }
         }
     }
-
-    return result;
 };
 
 export const api = createApi({

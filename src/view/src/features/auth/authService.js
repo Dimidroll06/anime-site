@@ -28,11 +28,8 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ['Auth'],
         }),
 
-        refresh: build.query({
-            queryFn: async (_, api, extraOptions, baseQuery) => {
-                const result = await baseQuery('/auth/refresh');
-                return result;
-            },
+        getMe: build.query({
+            query: () => ({ url: '/user/me' }),
             providesTags: ['Auth'],
         })
     }),
@@ -42,5 +39,5 @@ export const {
     useLoginMutation,
     useRegistrationMutation,
     useLogoutMutation,
-    useRefreshQuery,
+    useGetMeQuery,
 } = authApi;
