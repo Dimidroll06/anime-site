@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Header from "./layouts/Header";
 import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 import { NotFound } from "./pages/404";
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
           <div className="pt-13">
             <Routes>
               <Route index element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
