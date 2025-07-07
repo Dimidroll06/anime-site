@@ -6,7 +6,8 @@ const $api = axios.create({
     withCredentials: true,
 });
 
-export const baseQueryWithToken = async ({ url, method, data, params }) => {
+export const baseQueryWithToken = async (req) => {
+    const { url, method, data, params } = req;
     try {
         const token = localStorage.getItem('token');
         const headers = token ? { authorization: `Bearer ${token}` } : {};
