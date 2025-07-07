@@ -29,7 +29,10 @@ export const authApi = api.injectEndpoints({
         }),
 
         getMe: build.query({
-            query: () => ({ url: '/user/me' }),
+            query: () => ({
+                url: '/user/me',
+                method: 'POST'
+            }),
             providesTags: ['Auth'],
         })
     }),

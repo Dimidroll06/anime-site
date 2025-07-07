@@ -23,7 +23,7 @@ export const baseQueryWithToken = async (req) => {
         return { data: res.data };
         
     } catch (error) {
-        if (error.response?.status === 401 && localStorage.getItem('token') != null) {
+        if (error.response?.status === 401) {
             try {
                 const refreshRes = await $api.post('/auth/refresh', {
                     withCredentials: true

@@ -31,7 +31,7 @@ export default function ProfileMenu() {
   };
 
   if (isLoading) return <>Загрузка</>;
-  if (user == null)
+  if (user === null)
     return (
       <button
         onClick={() => navigate("/login")}
@@ -48,11 +48,18 @@ export default function ProfileMenu() {
         onClick={() => setMenuOpened(!menuOpened)}
       >
         <span className="pr-4 pt-1 pl-5 select-none ">⌵</span>
-        <img
-          src={user.avatarUrl}
-          alt="User Avatar"
-          className="w-9 h-9 rounded-full border border-gray-300 object-cover bg-blue-300"
-        />
+        {user.avatarUrl !== null ? (
+          <img
+            src={user.avatarUrl}
+            alt="User Avatar"
+            className="w-9 h-9 rounded-full border border-gray-300 object-cover bg-blue-300"
+          />
+        ) : (
+          <div className="w-9 h-9 rounded-full flex justify-around border-gray-300 object-cover bg-blue-300 text-blue-950 font-semibold text-2xl select-none">
+            {user.username[0].toUpperCase()}
+          </div>
+        )}
+
         {menuOpened && (
           <div className="absolute w-60 pt-4 pb-4 bg-white/70 rounded-2xl right-0 top-13 cursor-auto overflow-hidden">
             <button

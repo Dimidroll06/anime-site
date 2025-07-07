@@ -19,10 +19,22 @@ function App() {
           <div className="pt-13">
             <Routes>
               <Route index element={<Home />} />
-              <ProtectedRoute requireAuth={false}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </ProtectedRoute>
+              <Route
+                path="/login"
+                element={
+                  <ProtectedRoute requireAuth={false}>
+                    <Login />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <ProtectedRoute requireAuth={false}>
+                    <Register />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
