@@ -130,3 +130,6 @@ dist
 
 # Databases
 **/*.sqlite
+
+# Parser
+utils/anime-parser
