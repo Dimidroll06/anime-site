@@ -28,9 +28,13 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        videoUrl: {
+        animeUrl: {
             type: DataTypes.TEXT,
-            allowNull: true
+            allowNull: false  
+        },
+        rating: {
+            type: DataTypes.FLOAT,
+            default: 0
         },
         createdAt: {
             type: DataTypes.DATE,
