@@ -3,9 +3,22 @@ require('dotenv').config();
 const { port } = require('./src/lib/config');
 const { sequelize, testConnection } = require('./src/lib/db');
 const app = require('./src/app');
+const path = require('path');
+const fs = require('fs-extra');
 
 const startApplication = async () => {
     try {
+
+        const avatarsDirExists = await fs.exists(path.join(__dirname, 'src', 'view', 'avatars'));
+        if (!avatarsDirExists) {
+            await fs.mkdir(path.join(__dirname, 'src', 'view', 'avatars'));
+        }
+
+        const coversDirExists = await fs.exists(path.join(__dirname, 'src', 'view', 'covers'));
+        if (!coversDirExists) {
+            await fs.mkdir(path.join(__dirname, 'src', 'view', 'covers'));
+        }
+
         await testConnection();
 
         await sequelize.sync({ force: false });

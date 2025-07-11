@@ -9,6 +9,7 @@ router.get('/:id', userController.getUserById);
 router.post('/me', requireAuth, userController.me);
 router.put('/', requireAuth, userValidator.validateEditProfile, userController.editProfile);
 router.put('/password', requireAuth, userValidator.validateEditPassword, userController.changePassword);
+router.put('/avatar', requireAuth, userController.multer(), userController.updateProfilePicture);
 router.delete('/', requireAuth, userController.deleteAccount);
 
 module.exports = router;

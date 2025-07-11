@@ -1,5 +1,38 @@
 const { User } = require('../models/index');
 const bcrypt = require('bcryptjs');
+const multer = require('multer');
+const fs = require('fs-extra');
+const path = require('path');
+
+const UPLOADS_DIR = path.join(__dirname, '..', 'view', 'avatars');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, UPLOADS_DIR);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const filename = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`
+        cb(null, filename)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Недопустимый тип файла'), false);
+    }
+}
+
+const multerUpload = multer({
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: 8 * 1024 * 1024
+    }
+});
 
 class UserController {
 
@@ -34,6 +67,31 @@ class UserController {
         });
 
         res.status(200).json(req.user);
+    }
+
+    async updateProfilePicture(req, res) {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Profile picture not present' });
+        }
+
+        if (req.user.avatarUrl != null && await fs.exists(path.join(UPLOADS_DIR, req.user.avatarUrl))) {
+            await fs.remove(path.join(UPLOADS_DIR, req.user.avatarUrl));
+        }
+
+        try {
+            req.user.update({
+                avatarUrl: req.file.filename
+            });
+
+            res.status(200).json({ message: 'Фотография профиля обнолвена' });
+        } catch (error) {
+            console.error('Ошибка загрузки', error);
+            res.status(500).json({ message: 'Произошла непредвиденная ошибка' });
+        }
+    }
+
+    multer() {
+        return multerUpload.single('image');
     }
 
     async deleteAccount(req, res) {
