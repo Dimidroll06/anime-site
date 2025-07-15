@@ -6,7 +6,6 @@ const { logger } = require('./lib/logger');
 const path = require('path');
 const config = require('./lib/config');
 const routes = require('./routes/index');
-const path = require('path');
 const app = express();
 
 app.use(expressWinston.logger({
