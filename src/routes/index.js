@@ -7,7 +7,7 @@ const uploadsRoute = require('./uploads');
 
 router.use('/auth', authRoute);
 router.use('/user', userRoutre);
-router.use('/uploads', uploadsRoute);
+// router.use('/uploads', uploadsRoute);
 
 router.use('/', (req, res) => {
     res.status(404).json({
