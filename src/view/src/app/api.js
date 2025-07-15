@@ -8,20 +8,42 @@ const $api = axios.create({
 
 export const baseQueryWithToken = async (req) => {
     const { url, method, data, params } = req;
+
+    const isFormData = req.formData === true;
+
     try {
         const token = localStorage.getItem('token');
         const headers = token ? { authorization: `Bearer ${token}` } : {};
 
+        let requestData = data;
+
+        if (isFormData && data instanceof Object && !(data instanceof FormData)) {
+            const fd = new FormData();
+            for (const key in data) {
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                    const value = data[key];
+                    if (value instanceof FileList) {
+                        for (let i = 0; i < value.length; i++) {
+                            fd.append(key, value[i]);
+                        }
+                    } else {
+                        fd.append(key, value);
+                    }
+                }
+            }
+            requestData = fd;
+        }
+
         const res = await $api({
             url,
             method,
-            data,
+            data: requestData,
             params,
-            headers
+            headers,
         });
 
         return { data: res.data };
-        
+
     } catch (error) {
         if (error.response?.status === 401) {
             try {

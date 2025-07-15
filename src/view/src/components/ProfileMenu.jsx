@@ -27,6 +27,19 @@ export default function ProfileMenu() {
   }, []);
 
   const handleMenuClick = (item) => {
+    switch (item) {
+      case "profile":
+        navigate(`/u/${user.id}`);
+        break;
+      case "admin":
+
+        break;
+      case "logout":
+
+        break;
+      default:
+        break;
+    }
     return () => console.log(item);
   };
 
