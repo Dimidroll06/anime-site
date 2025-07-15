@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./LodaingSpinner";
 import { getAuth, getLoading, getUser } from "../features/auth/authSlice";
 
 export default function ProfileMenu() {
@@ -39,7 +40,7 @@ export default function ProfileMenu() {
     }
   };
 
-  if (isLoading) return <>Загрузка</>;
+  if (isLoading) return <LoadingSpinner />;
   if (user === null)
     return (
       <button

@@ -1,12 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetUserByIdQuery } from "../features/user/userService";
+import LoadingSpinner from "../components/LodaingSpinner";
 
 export function Profile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetUserByIdQuery(Number(id));
 
-  if (isLoading) return <>Загрузка</>;
+  if (isLoading) return <LoadingSpinner />
   if (error) return <>Непредвиденная ошибка</>;
   if (!data) return navigate("/404");
 
