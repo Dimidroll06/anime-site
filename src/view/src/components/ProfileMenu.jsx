@@ -29,18 +29,14 @@ export default function ProfileMenu() {
   const handleMenuClick = (item) => {
     switch (item) {
       case "profile":
-        navigate(`/u/${user.id}`);
-        break;
+        return () => navigate(`/profile/${user.id}`);
       case "admin":
-
-        break;
+        return () => navigate('/admin');
       case "logout":
-
-        break;
+        return () => console.log('logout');
       default:
-        break;
+        return () => console.error(`Вызван неизвестный метод '${item}'`)
     }
-    return () => console.log(item);
   };
 
   if (isLoading) return <>Загрузка</>;

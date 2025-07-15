@@ -16,11 +16,18 @@ export function Profile() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="bg-white shadow-md rounded-lg p-6">
         <div className="flex items-center space-x-6 mb-6">
-          <img
-            src={user.avatarUrl || "https://via.placeholder.com/100 "}
-            alt="Аватар"
-            className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
-          />
+          {user.avatarUrl != null ? (
+            <img
+              src={user.avatarUrl || "https://via.placeholder.com/100 "}
+              alt="Аватар"
+              className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-full object-cover border-2 border-gray-300 flex justify-around bg-blue-300 text-blue-950 font-semibold text-7xl select-none">
+              {user.username[0].toUpperCase()}
+            </div>
+          )}
+
           <div>
             <h1 className="text-2xl font-bold">{user.username}</h1>
             <p className="text-gray-600">{user.email}</p>

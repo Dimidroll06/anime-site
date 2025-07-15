@@ -3,7 +3,10 @@ import { api } from '../../app/api';
 export const userApi = api.injectEndpoints({
     endpoints: (build) => ({
         getUserById: build.query({
-            query: (id) => `/user/${id}`,
+            query: (id) => ({
+                url: `/user/${id}`,
+                method: 'GET'
+            }),
             providesTags: (result, error, id) => [{ type: 'User', id }],
         }),
 
