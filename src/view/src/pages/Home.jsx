@@ -1,4 +1,26 @@
+import { useGetRandomCoversQuery } from "../features/anime/animeService";
+import { useState } from "react";
+import LoadingSpinner from "../components/LodaingSpinner";
+
 export function Home() {
+  const { data, currentData, error, isLoading } = useGetRandomCoversQuery({
+    limit: 10,
+  });
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const autoplayInterval = 3000;
+  
+  if (isLoading) return <LoadingSpinner />
+  console.log(data, currentData, error);
+  const covers = data.data;
+
+  const handleNextClick = () => {
+    setCurrentIndex((currentIndex + 1) % covers.length);
+  };
+
+  setInterval(() => {
+    handleNextClick();
+  }, autoplayInterval);
+
   return (
     <>
       {/* Блок с информацией */}
@@ -15,7 +37,7 @@ export function Home() {
             className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
           />
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 relative">
           <div className="text-center">
             <h1 className="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
               Смотри аниме онлайн бесплатно
@@ -30,6 +52,16 @@ export function Home() {
           aria-hidden="true"
           className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
         ></div>
+        <div
+          className="absolute top-0 bottom-0 left-0 right-0"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {covers.map((cover, i) => (
+            <div className="carousel-item flex-shrink-0 w-full" key={i}>
+              <img src={cover.src} className="w-full h-auto" />
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
