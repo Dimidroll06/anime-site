@@ -19,7 +19,7 @@ export function Profile() {
         <div className="flex items-center space-x-6 mb-6">
           {user.avatarUrl != null ? (
             <img
-              src={user.avatarUrl || "https://via.placeholder.com/100 "}
+              src={ '/avatars/'+user.avatarUrl }
               alt="Аватар"
               className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
             />

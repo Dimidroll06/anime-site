@@ -60,7 +60,7 @@ export default function ProfileMenu() {
         <span className="pr-4 pt-1 pl-5 select-none ">⌵</span>
         {user.avatarUrl !== null ? (
           <img
-            src={user.avatarUrl}
+            src={'/avatars/'+user.avatarUrl}
             alt="User Avatar"
             className="w-9 h-9 rounded-full border border-gray-300 object-cover bg-blue-300"
           />

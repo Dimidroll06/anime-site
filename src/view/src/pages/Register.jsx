@@ -39,12 +39,6 @@ export function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      console.log({
-        username,
-        password,
-        repeat_password: repeatPassword,
-        email,
-      })
       await registerValidationSchema.validate(
         { username, password, repeat_password: repeatPassword, email },
         { abortEarly: false }
@@ -203,7 +197,7 @@ export function Register() {
             Вы также можете{" "}
             <a
               onClick={() => navigate("/login")}
-              className="font-semibold text-blue-600 hover:text-blue-500 cursor-pointer"
+              className="font-semibold disabled:bg-gray-500 disabled:hover:bg-gray-600 text-blue-600 hover:text-blue-500 cursor-pointer"
             >
               Войти
             </a>

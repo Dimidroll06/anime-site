@@ -133,3 +133,7 @@ dist
 
 # Parser
 utils/anime-parser
+
+# Static
+src/view/avatars/*
+src/view/covers/*

@@ -9,6 +9,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { NotFound } from "./pages/404";
+import { EditProfile } from "./pages/EditProfile";
 import { Profile } from "./pages/Profile";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
