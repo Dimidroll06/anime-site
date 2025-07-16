@@ -17,7 +17,9 @@ export function EditProfile() {
 
   const [username, setUsername] = useState(user?.username || "");
   const [email, setEmail] = useState(user?.email || "");
-  const [avatarPreview, setAvatarPreview] = useState(user?.avatarUrl || "");
+  const [avatarPreview, setAvatarPreview] = useState(
+    "/avatars/" + user?.avatarUrl || ""
+  );
   const [errorMessage, setErrorMessage] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -97,13 +99,13 @@ export function EditProfile() {
       <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
         <div className="flex items-center space-x-6">
           <div className="relative">
-            {!avatarPreview && user.avatarUrl == null ? (
+            {!avatarPreview ? (
               <div className="w-24 h-24 rounded-full object-cover border-2 border-gray-300 bg-blue-300 flex justify-around font-semibold text-blue-950 text-7xl select-none">
                 {user.username[0].toUpperCase()}
               </div>
             ) : (
               <img
-                src={avatarPreview || "/avatars/" + user.avatarUrl}
+                src={avatarPreview}
                 alt="Аватар"
                 className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
               />

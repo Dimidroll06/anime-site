@@ -1,14 +1,17 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getUser } from "../features/auth/authSlice";
 import { useGetUserByIdQuery } from "../features/user/userService";
 import LoadingSpinner from "../components/LodaingSpinner";
 
 export function Profile() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading, error } = useGetUserByIdQuery(Number(id));
+  const { data, isLoading } = useGetUserByIdQuery(Number(id));
+
+  const me = useSelector(getUser);
 
   if (isLoading) return <LoadingSpinner />
-  if (error) return <>Непредвиденная ошибка</>;
   if (!data) return navigate("/404");
 
   const user = data;
@@ -37,6 +40,9 @@ export function Profile() {
                 Администратор
               </span>
             )}
+            {
+              me?.id == user.id && <button className="border-b-blue-500 hover:border-b-blue-300 border-b-1 text-blue-500 hover:text-blue-300 transition-all cursor-pointer" onClick={() => navigate('/profile/edit')}>Редактировать профиль</button>
+            }
           </div>
         </div>
 
