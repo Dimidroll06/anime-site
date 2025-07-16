@@ -43,8 +43,7 @@ class VideoController {
             }
 
             const videos = await Video.findAll({
-                where: { animeId, number },
-                attributes: ['player', 'dubbing']
+                where: { animeId, number }
             });
 
             if (!videos.length) {
