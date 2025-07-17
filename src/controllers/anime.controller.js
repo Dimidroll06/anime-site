@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Anime, sequelize } = require('../models/index');
 
 class AnimeController {
@@ -17,9 +18,9 @@ class AnimeController {
             const where = {};
 
             if (q) {
-                where[sequelize.Op.or] = [
-                    { title: { [sequelize.Op.Like]: `%${q}%` } },
-                    { description: { [sequelize.Op.Like]: `%${q}%` } }
+                where[Op.or] = [
+                    { title: { [Op.like]: `%${q}%` } },
+                    { description: { [Op.like]: `%${q}%` } }
                 ];
             }
 
