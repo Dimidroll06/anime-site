@@ -69,8 +69,7 @@ class AnimeController {
         try {
             const limit = parseInt(req.query.limit) || 5;
 
-            const animes = await Anime.aggregate('id', 'COUNT', {
-                plain: false,
+            const animes = await Anime.findAll({
                 order: sequelize.literal('RANDOM()'),
                 limit
             });
@@ -91,9 +90,6 @@ class AnimeController {
 
             const covers = await Anime.findAll({
                 attributes: ['coverUrl'],
-                where: {
-                    coverUrl: { [sequelize.Op.not]: null },
-                },
                 order: sequelize.literal('RANDOM()'),
                 limit
             });
