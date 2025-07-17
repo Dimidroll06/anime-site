@@ -85,7 +85,6 @@ export function Anime() {
             </div>
           </div>
         </div>
-
         <VideoPlayer animeId={anime.id} initialEpisode={1} />
       </div>
     </div>
