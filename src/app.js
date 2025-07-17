@@ -24,10 +24,6 @@ app.use('/api', routes);
 app.use('/avatars', express.static(path.join(__dirname, 'view', 'avatars')));
 app.use('/covers', express.static(path.join(__dirname, 'view', 'covers')));
 
-app.use('/assets', express.static(path.join(__dirname, 'view', 'dist', 'assets')));
-app.use(express.static(path.join(__dirname, 'view', 'dist')));
-app.use((req, res) => res.sendFile(path.join(__dirname, 'view', 'dist', 'index.html')));
-
 app.use(expressWinston.errorLogger({
     winstonInstance: logger
 }));
