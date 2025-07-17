@@ -6,17 +6,24 @@ export const animeApi = api.injectEndpoints({
     endpoints: (build) => ({
 
         searchAnimes: build.infiniteQuery({
-            query: (params) => ({
-                url: '/anime',
-                method: 'GET',
-                params: {
-                    ...params,
-                    limit: params.limit || 10,
-                    offset: params.offset || 0,
-                },
-            }),
+            query: (params) => {
+                let q = {};
+                if (params.q) q.q = params.q;
+                if (params.status) q.status = params.status;
+                if (params.releaseYear) q.releaseYear = params.releaseYear;
+                if (params.sortField) q.sortField = params.sortField;
+                if (params.sortOrder) q.sortOrder = params.sortOrder;
 
-            providesTags: ['Anime'],
+                return {
+                    url: '/anime',
+                    method: 'GET',
+                    params: {
+                        ...q,
+                        limit: params.limit || 10,
+                        offset: params.offset || 0,
+                    },
+                };
+            },
 
             serializeQueryArgs: ({ queryArgs, endpointName }) => {
                 const { q, status, releaseYear, sortField, sortOrder } = queryArgs;
@@ -24,27 +31,59 @@ export const animeApi = api.injectEndpoints({
             },
 
             merge: (currentCache, newItems) => {
-                currentCache.data.push(...newItems.data);
+                if (!newItems || !Array.isArray(newItems.pages)) {
+                    return;
+                }
+
+                if (!currentCache) {
+                    currentCache = [...newItems.pages];
+                } else {
+                    currentCache.push(...newItems.pages);
+                }
             },
 
             forceRefetch({ currentArg, previousArg }) {
                 return currentArg?.offset !== previousArg?.offset;
             },
-            
-            // eslint-disable-next-line no-unused-vars
-            getNextPageParam: (lastPage, _allPages) => {
-                const currentPage = lastPage.offset / lastPage.limit;
-                const hasNextPage = currentPage < lastPage.totalPages - 1;
 
-                if (hasNextPage) {
+            transformResponse: (response, _meta, arg) => {
+                return {
+                    data: response.data || [],
+                    total: response.total || 0,
+                    limit: response.limit || 10,
+                    offset: response.offset || 0,
+                    params: arg
+
+                };
+            },
+
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 20,
+                },
+
+                getNextPageParam: (lastPage) => {
+                    const { limit, offset, total } = lastPage;
+
+                    if (!limit || !offset || !total) {
+                        return undefined;
+                    }
+
+                    const currentPage = Math.floor(offset / limit);
+                    const totalPages = Math.ceil(total / limit);
+                    const hasNextPage = currentPage < totalPages - 1;
+
+                    if (!hasNextPage) {
+                        return undefined;
+                    }
+
                     return {
                         ...lastPage,
-                        offset: lastPage.offset + lastPage.limit,
+                        offset: offset + limit
                     };
-                }
-
-                return undefined;
-            },
+                },
+            }
         }),
 
         getRandomAnimes: build.query({

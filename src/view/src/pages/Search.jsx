@@ -29,10 +29,21 @@ export function Search() {
   );
 
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useSearchAnimesInfiniteQuery({
-      q: searchQuery,
-      ...advancedFilters,
-    });
+    useSearchAnimesInfiniteQuery(
+      {
+        q: searchQuery,
+        ...advancedFilters,
+      },
+      {
+        initialData: { pages: [], pageParams: [] },
+        select: (data) => {
+          return {
+            ...data,
+            pages: data.pages || [],
+          };
+        },
+      }
+    );
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
