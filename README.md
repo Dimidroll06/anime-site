@@ -22,31 +22,31 @@
 
 ```
 .
-├── src/                  # Основной код сервера и клиента
+├── src/                      # Основной код сервера и клиента
 │   ├── lib/                  # Настройки
 │   │   ├── config.js         # Конфигурация
 │   │   ├── db.js             # Подключение к БД
 │   │   └── logger.js         # Логгирование
-│   ├── controllers/      # Контроллеры Express
-│   ├── middleware/       # Промежуточные обработчики
-│   ├── models/           # Модели Sequelize (аниме, пользователи, видео)
-│   ├── routes/           # Роуты Express
-│   ├── validators/       # Валидаторы для входящих данных
-│   ├── view/             # Клиентская часть (React + Vite)
-│   │   ├── src/          # Исходники React-приложения
-│   │   │   ├── app/      # RTK Query API, store
-│   │   │   ├── components/ # Компоненты
-│   │   │   ├── pages/    # Страницы
-│   │   │   └── layouts/  # Макеты
-│   │   └── index.html    # Точка входа
-│   └── app.js            # Сервер Express
+│   ├── controllers/          # Контроллеры Express
+│   ├── middleware/           # Промежуточные обработчики
+│   ├── models/               # Модели Sequelize (аниме, пользователи, видео)
+│   ├── routes/               # Роуты Express
+│   ├── validators/           # Валидаторы для входящих данных
+│   ├── view/                 # Клиентская часть (React + Vite)
+│   │   ├── src/              # Исходники React-приложения
+│   │   │   ├── app/          # RTK Query API, store
+│   │   │   ├── components/   # Компоненты
+│   │   │   ├── pages/        # Страницы
+│   │   │   └── layouts/      # Макеты
+│   │   └── index.html        # Точка входа
+│   └── app.js                # Сервер Express
 │
-├── utils/                # Вспомогательные утилиты
-│   └── anime-parser/    # Парсер аниме (для наполнения БД)
+├── utils/                    # Вспомогательные утилиты
+│   └── anime-parser/         # Парсер аниме (для наполнения БД)
 │
-├── index.js              # Точка входа
+├── index.js                  # Точка входа
 ├── package.json
-└── README.md             # Ты сейчас здесь
+└── README.md                 # Ты сейчас здесь
 ```
 
 ---
