@@ -65,6 +65,45 @@ class AnimeController {
         res.status(200).json(anime);
     }
 
+    async getRandomAnimes(req, res) {
+        try {
+            const limit = parseInt(req.query.limit) || 5;
+
+            const animes = await Anime.findAll({
+                order: sequelize.literal('RANDOM()'),
+                limit
+            });
+
+            return res.json({
+                data: animes,
+                total: animes.length,
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Ошибка сервера' });
+        }
+    }
+
+    async getRandomCovers(req, res) {
+        try {
+            const limit = parseInt(req.query.limit) || 10;
+
+            const covers = await Anime.findAll({
+                attributes: ['coverUrl'],
+                order: sequelize.literal('RANDOM()'),
+                limit
+            });
+
+            return res.json({
+                data: covers.map(c => c.coverUrl),
+                total: covers.length,
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Ошибка сервера' });
+        }
+    }
+
 }
 
 module.exports = new AnimeController();
