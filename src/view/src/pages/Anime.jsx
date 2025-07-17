@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useGetAnimeByIdQuery } from "../features/anime/animeService";
 import { useGetAnimeEpisodesStatsQuery } from "../features/video/videoService";
 import LoadingSpinner from "../components/LodaingSpinner";
+import { VideoPlayer } from "../layouts/VideoPlayer";
 
 export function Anime() {
   const navigate = useNavigate();
@@ -85,14 +86,7 @@ export function Anime() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Смотреть аниме
-          </h2>
-          <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 text-lg font-medium">
-            🎬 Плеер временно недоступен
-          </div>
-        </div>
+        <VideoPlayer animeId={anime.id} initialEpisode={1} />
       </div>
     </div>
   );
