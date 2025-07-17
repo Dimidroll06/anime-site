@@ -85,6 +85,6 @@ export const baseQueryWithToken = async (req) => {
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithToken,
-    tagTypes: ['Auth'],
+    tagTypes: ['Auth', 'Video', 'Anime'],
     endpoints: () => ({}),
 });
