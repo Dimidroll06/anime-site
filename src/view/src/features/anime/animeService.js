@@ -5,7 +5,7 @@ import { api } from '../../app/api';
 export const animeApi = api.injectEndpoints({
     endpoints: (build) => ({
 
-        searchAnimesInfinite: build.infiniteQuery({
+        searchAnimes: build.infiniteQuery({
             query: (params) => ({
                 url: '/anime',
                 method: 'GET',

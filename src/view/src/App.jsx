@@ -12,6 +12,7 @@ import { NotFound } from "./pages/404";
 import { EditProfile } from "./pages/EditProfile";
 import { Profile } from "./pages/Profile";
 import { Anime } from "./pages/Anime";
+import { Search } from "./pages/Search";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/anime/:animeId" element={<Anime />} />
+              <Route path="/search" element={<Search />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

@@ -1,17 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ProfileMenu from "../components/ProfileMenu";
 
 export default function Header() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
     { name: "Главная", path: "/" },
     { name: "Аниме", path: "/anime" },
-    { name: "Избранное", path: "/favorites" },
   ];
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const q = searchParams.get("q");
+    if (q) {
+      setSearchQuery(q);
+    }
+  }, [location.search]);
 
   const toggleMenu = () => {
     setMobileMenuOpen((prev) => !prev);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   return (
@@ -35,6 +54,31 @@ export default function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <form onSubmit={handleSearch} className="hidden md:block">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Поиск аниме..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-48 md:w-64 px-4 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <svg
+                  className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </form>
+
             <button
               className="md:hidden text-gray-700 focus:outline-none"
               onClick={toggleMenu}
@@ -59,6 +103,32 @@ export default function Header() {
             >
               &times;
             </button>
+
+            <form onSubmit={handleSearch} className="mb-6">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Поиск аниме..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <svg
+                  className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </form>
+
             <ul className="flex flex-col space-y-4 mt-4">
               {navLinks.map((link) => (
                 <li key={link.path}>
