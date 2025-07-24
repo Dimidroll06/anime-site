@@ -5,6 +5,24 @@
 
 ---
 
+## Скриншоты
+
+![](https://github.com/Dimidroll06/anime-site/blob/main/public/homepage.jpg?raw=true)
+
+---
+
+![](https://github.com/Dimidroll06/anime-site/blob/main/public/animecard.jpg?raw=true)
+
+---
+
+![](https://github.com/Dimidroll06/anime-site/blob/main/public/player.jpg?raw=true)
+
+---
+
+![](https://github.com/Dimidroll06/anime-site/blob/main/public/profile.jpg?raw=true)
+
+---
+
 ## 🧾 Описание
 
 Сайт позволяет:
